@@ -3,23 +3,20 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 17-Dez-2024 às 17:43
+-- Tempo de geração: 13-Jan-2025 às 15:26
 -- Versão do servidor: 10.4.21-MariaDB
 -- versão do PHP: 8.0.12
 
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
 -- Banco de dados: `alertify`
 --
+CREATE DATABASE IF NOT EXISTS `alertify` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `alertify`;
 
 -- --------------------------------------------------------
 
@@ -219,7 +216,7 @@ CREATE TABLE `rotas` (
 --
 
 INSERT INTO `rotas` (`id_rota`, `nome_rota`, `local_partida`, `local_chegada`, `id_autocarro`, `hora_inicio`, `hora_fim`, `id_motorista`) VALUES
-(1, 'Rota 1', 'Caldinhas', 'Freamunde', 1, '17:10:00', '18:40:00', 0);
+(1, 'Rota 1', 'Caldinhas', 'Freamunde', 1, '17:10:00', '18:40:00', 1);
 
 -- --------------------------------------------------------
 
@@ -312,7 +309,7 @@ ALTER TABLE `reservas`
 ALTER TABLE `rotas`
   ADD PRIMARY KEY (`id_rota`),
   ADD KEY `id_autocarro` (`id_autocarro`),
-  ADD KEY `fk_motorista` (`id_motorista`);
+  ADD KEY `fk_motorista_check` (`id_motorista`);
 
 --
 -- Índices para tabela `utilizadores`
@@ -423,10 +420,7 @@ ALTER TABLE `reservas`
 -- Limitadores para a tabela `rotas`
 --
 ALTER TABLE `rotas`
-  ADD CONSTRAINT `fk_motorista` FOREIGN KEY (`id_motorista`) REFERENCES `motoristas` (`id_motorista`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `rotas_ibfk_1` FOREIGN KEY (`id_autocarro`) REFERENCES `autocarros` (`id_autocarro`);
+  ADD CONSTRAINT `fk_motorista_check` FOREIGN KEY (`id_motorista`) REFERENCES `motoristas` (`id_motorista`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `rotas_ibfk_1` FOREIGN KEY (`id_autocarro`) REFERENCES `autocarros` (`id_autocarro`) ON DELETE CASCADE ON UPDATE CASCADE;
+SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
