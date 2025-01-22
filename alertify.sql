@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 13-Jan-2025 às 15:26
+-- Tempo de geração: 22-Jan-2025 às 13:48
 -- Versão do servidor: 10.4.21-MariaDB
 -- versão do PHP: 8.0.12
 
@@ -69,8 +69,6 @@ INSERT INTO `autocarros` (`id_autocarro`, `numero_registo`, `modelo`, `capacidad
 
 CREATE TABLE `controlo_rotas` (
   `dia` int(11) NOT NULL,
-  `latAtual` decimal(10,6) DEFAULT NULL,
-  `lngAtual` decimal(10,6) DEFAULT NULL,
   `id_motorista` int(11) NOT NULL,
   `id_autocarro` int(11) NOT NULL,
   `id_gps` int(11) NOT NULL,
@@ -85,9 +83,9 @@ CREATE TABLE `controlo_rotas` (
 
 CREATE TABLE `gps` (
   `id_gps` int(11) NOT NULL,
-  `data_hora_registo` datetime DEFAULT current_timestamp(),
-  `lat` decimal(20,12) NOT NULL,
-  `lng` decimal(20,12) NOT NULL,
+  `data_hora_registo` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `latitude` decimal(20,12) NOT NULL,
+  `longitude` decimal(20,12) NOT NULL,
   `gps_historico` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -95,18 +93,8 @@ CREATE TABLE `gps` (
 -- Extraindo dados da tabela `gps`
 --
 
-INSERT INTO `gps` (`id_gps`, `data_hora_registo`, `lat`, `lng`, `gps_historico`) VALUES
+INSERT INTO `gps` (`id_gps`, `data_hora_registo`, `latitude`, `longitude`, `gps_historico`) VALUES
 (1, '2024-11-29 23:16:32', '41.362187000000', '-8.471609000000', NULL);
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `gps_historico`
---
-
-CREATE TABLE `gps_historico` (
-  `id_historico` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -116,17 +104,20 @@ CREATE TABLE `gps_historico` (
 
 CREATE TABLE `locations` (
   `id` int(11) NOT NULL,
-  `latitude` varchar(100) NOT NULL,
-  `longitude` int(100) NOT NULL,
-  `cdate` datetime NOT NULL DEFAULT current_timestamp()
+  `latitude` decimal(20,12) NOT NULL,
+  `longitude` decimal(20,12) NOT NULL,
+  `cdate` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` text NOT NULL,
+  `message` text NOT NULL,
+  `id_gps` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `locations`
 --
 
-INSERT INTO `locations` (`id`, `latitude`, `longitude`, `cdate`) VALUES
-(1, '123', 456, '2024-12-17 16:36:15');
+INSERT INTO `locations` (`id`, `latitude`, `longitude`, `cdate`, `status`, `message`, `id_gps`) VALUES
+(1, '41.369111000000', '-8.481917000000', '2024-12-17 16:36:15', '', '', 1);
 
 -- --------------------------------------------------------
 
@@ -229,15 +220,16 @@ CREATE TABLE `utilizadores` (
   `nome` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `telefone` varchar(20) DEFAULT NULL,
-  `data_registo` datetime DEFAULT current_timestamp()
+  `data_registo` datetime DEFAULT current_timestamp(),
+  `get_all_locations` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `utilizadores`
 --
 
-INSERT INTO `utilizadores` (`id_utilizador`, `nome`, `email`, `telefone`, `data_registo`) VALUES
-(1, 'Maria Costa', 'maria.costa@exemplo.pt', '965432100', '2024-11-29 23:16:32');
+INSERT INTO `utilizadores` (`id_utilizador`, `nome`, `email`, `telefone`, `data_registo`, `get_all_locations`) VALUES
+(1, 'Maria Costa', 'maria.costa@exemplo.pt', '965432100', '2024-11-29 23:16:32', 0);
 
 --
 -- Índices para tabelas despejadas
@@ -278,7 +270,8 @@ ALTER TABLE `gps`
 -- Índices para tabela `locations`
 --
 ALTER TABLE `locations`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id_gps` (`id_gps`);
 
 --
 -- Índices para tabela `motoristas`
@@ -401,6 +394,12 @@ ALTER TABLE `controlo_rotas`
   ADD CONSTRAINT `controlo_rotas_ibfk_2` FOREIGN KEY (`id_autocarro`) REFERENCES `autocarros` (`id_autocarro`),
   ADD CONSTRAINT `controlo_rotas_ibfk_3` FOREIGN KEY (`id_gps`) REFERENCES `gps` (`id_gps`),
   ADD CONSTRAINT `controlo_rotas_ibfk_4` FOREIGN KEY (`id_rota`) REFERENCES `rotas` (`id_rota`);
+
+--
+-- Limitadores para a tabela `locations`
+--
+ALTER TABLE `locations`
+  ADD CONSTRAINT `locations_ibfk_1` FOREIGN KEY (`id_gps`) REFERENCES `gps` (`id_gps`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limitadores para a tabela `paragens`
