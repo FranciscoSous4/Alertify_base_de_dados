@@ -1,22 +1,25 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 22-Jan-2025 às 13:48
--- Versão do servidor: 10.4.21-MariaDB
--- versão do PHP: 8.0.12
+-- Tempo de geração: 03-Fev-2025 às 19:53
+-- Versão do servidor: 10.4.32-MariaDB
+-- versão do PHP: 8.2.12
 
-SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
 --
 -- Banco de dados: `alertify`
 --
-CREATE DATABASE IF NOT EXISTS `alertify` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `alertify`;
 
 -- --------------------------------------------------------
 
@@ -30,7 +33,7 @@ CREATE TABLE `administradores` (
   `email` varchar(100) NOT NULL,
   `senha` varchar(255) NOT NULL,
   `data_registo` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `administradores`
@@ -52,7 +55,7 @@ CREATE TABLE `autocarros` (
   `capacidade` int(11) DEFAULT NULL,
   `id_motorista` int(11) DEFAULT NULL,
   `id_gps` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `autocarros`
@@ -73,7 +76,7 @@ CREATE TABLE `controlo_rotas` (
   `id_autocarro` int(11) NOT NULL,
   `id_gps` int(11) NOT NULL,
   `id_rota` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -87,14 +90,34 @@ CREATE TABLE `gps` (
   `latitude` decimal(20,12) NOT NULL,
   `longitude` decimal(20,12) NOT NULL,
   `gps_historico` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `gps`
 --
 
 INSERT INTO `gps` (`id_gps`, `data_hora_registo`, `latitude`, `longitude`, `gps_historico`) VALUES
-(1, '2024-11-29 23:16:32', '41.362187000000', '-8.471609000000', NULL);
+(1, '2024-11-29 23:16:32', 41.362187000000, -8.471609000000, NULL),
+(2, '2025-02-03 11:05:20', 0.000000000000, 0.000000000000, NULL),
+(3, '2025-02-03 11:10:39', 0.000000000000, 0.000000000000, NULL),
+(4, '2025-02-03 11:10:39', 0.000000000000, 0.000000000000, NULL),
+(5, '2025-02-03 11:10:39', 0.000000000000, 0.000000000000, NULL),
+(6, '2025-02-03 11:10:39', 0.000000000000, 0.000000000000, NULL),
+(7, '2025-02-03 11:10:39', 0.000000000000, 0.000000000000, NULL),
+(8, '2025-02-03 11:10:39', 0.000000000000, 0.000000000000, NULL),
+(9, '2025-02-03 11:10:39', 0.000000000000, 0.000000000000, NULL),
+(10, '2025-02-03 11:10:39', 0.000000000000, 0.000000000000, NULL),
+(11, '2025-02-03 11:10:39', 0.000000000000, 0.000000000000, NULL),
+(12, '2025-02-03 11:10:39', 0.000000000000, 0.000000000000, NULL),
+(13, '2025-02-03 11:10:39', 0.000000000000, 0.000000000000, NULL),
+(14, '2025-02-03 11:10:39', 0.000000000000, 0.000000000000, NULL),
+(15, '2025-02-03 11:10:39', 0.000000000000, 0.000000000000, NULL),
+(16, '2025-02-03 11:10:39', 0.000000000000, 0.000000000000, NULL),
+(17, '2025-02-03 11:10:39', 0.000000000000, 0.000000000000, NULL),
+(18, '2025-02-03 11:10:40', 0.000000000000, 0.000000000000, NULL),
+(19, '2025-02-03 11:10:40', 0.000000000000, 0.000000000000, NULL),
+(20, '2025-02-03 11:10:40', 0.000000000000, 0.000000000000, NULL),
+(21, '2025-02-03 11:10:40', 0.000000000000, 0.000000000000, NULL);
 
 -- --------------------------------------------------------
 
@@ -104,20 +127,44 @@ INSERT INTO `gps` (`id_gps`, `data_hora_registo`, `latitude`, `longitude`, `gps_
 
 CREATE TABLE `locations` (
   `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `latitude` decimal(20,12) NOT NULL,
   `longitude` decimal(20,12) NOT NULL,
   `cdate` datetime NOT NULL DEFAULT current_timestamp(),
   `status` text NOT NULL,
   `message` text NOT NULL,
   `id_gps` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `locations`
 --
 
-INSERT INTO `locations` (`id`, `latitude`, `longitude`, `cdate`, `status`, `message`, `id_gps`) VALUES
-(1, '41.369111000000', '-8.481917000000', '2024-12-17 16:36:15', '', '', 1);
+INSERT INTO `locations` (`id`, `name`, `latitude`, `longitude`, `cdate`, `status`, `message`, `id_gps`) VALUES
+(101, 'CALDINHAS', 41.369111000000, -8.481917000000, '2025-02-03 11:12:02', '', 'Caldinhas', 1),
+(102, 'SANTO TIRSO', 41.344083000000, -8.472306000000, '2025-02-03 11:12:02', '', 'Santo Tirso', 2),
+(103, 'MONTE CORDOVA', 41.332111000000, -8.462167000000, '2025-02-03 11:12:02', '', 'Monte Cordova', 3),
+(104, 'MONTE CORDOVA', 41.336750000000, -8.451167000000, '2025-02-03 11:12:02', '', 'Monte Cordova', 4),
+(105, 'MONTE CORDOVA', 41.317972000000, -8.429139000000, '2025-02-03 11:12:02', '', 'Monte Cordova', 5),
+(106, 'RIBA DE AVE', 41.316667000000, -8.425333000000, '2025-02-03 11:12:02', '', 'Riba De Ave', 6),
+(107, 'MEIXOMIL', 41.310306000000, -8.415194000000, '2025-02-03 11:12:02', '', 'Meixomil', 7),
+(108, 'MEIXOMIL', 41.294528000000, -8.402667000000, '2025-02-03 11:12:02', '', 'Meixomil', 8),
+(109, 'EIRIZ', 41.307361000000, -8.388028000000, '2025-02-03 11:12:02', '', 'Eiriz', 9),
+(110, 'EIRIZ', 41.312361000000, -8.377861000000, '2025-02-03 11:12:02', '', 'Eiriz', 10),
+(111, 'SANFINS', 41.314528000000, -8.374778000000, '2025-02-03 11:12:02', '', 'Sanfins', 11),
+(112, 'SANFINS', 41.318750000000, -8.372028000000, '2025-02-03 11:12:02', '', 'Sanfins', 12),
+(113, 'SANFINS', 41.317778000000, -8.363278000000, '2025-02-03 11:12:02', '', 'Sanfins', 13),
+(114, 'LAMOSO', 41.320083000000, -8.354556000000, '2025-02-03 11:12:02', '', 'Lamoso', 14),
+(115, 'FIGUEIRO', 41.312833000000, -8.340194000000, '2025-02-03 11:12:02', '', 'Figueiro', 15),
+(116, 'FIGUEIRO', 41.309361000000, -8.347583000000, '2025-02-03 11:12:02', '', 'Figueiro', 16),
+(117, 'CARVALHOSA', 41.301889000000, -8.360833000000, '2025-02-03 11:12:02', '', 'Carvalhosa', 17),
+(118, 'CARVALHOSA', 41.301111000000, -8.362778000000, '2025-02-03 11:12:02', '', 'Carvalhosa', 18),
+(119, 'PENAMAIOR', 41.283472000000, -8.401778000000, '2025-02-03 11:12:02', '', 'PenaMaior', 19),
+(125, '', 1.500000000000, 1.500000000000, '2025-02-03 15:42:58', '', '', 1),
+(126, '', 41.157943800000, -8.629105300000, '2025-02-03 16:25:26', '', '', 1),
+(127, '', 41.157943800000, -8.629105300000, '2025-02-03 16:26:25', '', '', 1),
+(128, '', 1.500000000000, 1.500000000000, '2025-02-03 16:36:20', '', '', 1),
+(129, '', 41.323330200000, -8.303108000000, '2025-02-03 18:40:25', '', '', 1);
 
 -- --------------------------------------------------------
 
@@ -131,7 +178,7 @@ CREATE TABLE `motoristas` (
   `telefone` varchar(20) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
   `data_nascimento` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `motoristas`
@@ -153,7 +200,7 @@ CREATE TABLE `paragens` (
   `id_rota` int(11) DEFAULT NULL,
   `lat` int(11) NOT NULL,
   `lng` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `paragens`
@@ -176,7 +223,7 @@ CREATE TABLE `reservas` (
   `id_rota` int(11) DEFAULT NULL,
   `id_paragem` int(11) DEFAULT NULL,
   `hora_reserva` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `reservas`
@@ -200,7 +247,7 @@ CREATE TABLE `rotas` (
   `hora_inicio` time NOT NULL,
   `hora_fim` time NOT NULL,
   `id_motorista` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `rotas`
@@ -222,7 +269,7 @@ CREATE TABLE `utilizadores` (
   `telefone` varchar(20) DEFAULT NULL,
   `data_registo` datetime DEFAULT current_timestamp(),
   `get_all_locations` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Extraindo dados da tabela `utilizadores`
@@ -270,8 +317,7 @@ ALTER TABLE `gps`
 -- Índices para tabela `locations`
 --
 ALTER TABLE `locations`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id_gps` (`id_gps`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Índices para tabela `motoristas`
@@ -337,13 +383,13 @@ ALTER TABLE `controlo_rotas`
 -- AUTO_INCREMENT de tabela `gps`
 --
 ALTER TABLE `gps`
-  MODIFY `id_gps` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_gps` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de tabela `locations`
 --
 ALTER TABLE `locations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
 
 --
 -- AUTO_INCREMENT de tabela `motoristas`
@@ -421,5 +467,8 @@ ALTER TABLE `reservas`
 ALTER TABLE `rotas`
   ADD CONSTRAINT `fk_motorista_check` FOREIGN KEY (`id_motorista`) REFERENCES `motoristas` (`id_motorista`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `rotas_ibfk_1` FOREIGN KEY (`id_autocarro`) REFERENCES `autocarros` (`id_autocarro`) ON DELETE CASCADE ON UPDATE CASCADE;
-SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
