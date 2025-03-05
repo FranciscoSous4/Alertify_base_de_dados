@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03-Fev-2025 às 19:53
+-- Tempo de geração: 05-Mar-2025 às 23:12
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `alertify`
 --
+CREATE DATABASE IF NOT EXISTS `alertify` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `alertify`;
 
 -- --------------------------------------------------------
 
@@ -317,7 +319,8 @@ ALTER TABLE `gps`
 -- Índices para tabela `locations`
 --
 ALTER TABLE `locations`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `locations_ibfk_1` (`id_gps`);
 
 --
 -- Índices para tabela `motoristas`
